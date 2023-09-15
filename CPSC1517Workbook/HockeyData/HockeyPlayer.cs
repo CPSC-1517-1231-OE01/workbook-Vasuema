@@ -1,4 +1,6 @@
-﻿namespace Hockey.Data
+﻿using Utils;
+
+namespace Hockey.Data
 {
     public class HockeyPlayer
     {
@@ -85,7 +87,7 @@
             }
             set
             {
-                if (value <= 0)
+                if (Utilities.IsZeroOrNegative(value))
                 {
                     throw new ArgumentException("Weight must be more than 0");
                 }
@@ -104,7 +106,7 @@
             }
             set
             {
-                if(value <= 0)
+                if(Utilities.IsZeroOrNegative(value))
                 {
                     throw new ArgumentException("weight must be more than 0");
                 }
@@ -123,10 +125,9 @@
             }
             set
             {
-                DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
-                if(value >=  currentDate)
+                if (Utilities.IsInFuture(value))
                 {
-                    throw new ArgumentException("Date cannot be a future or todays date.");
+                    throw new ArgumentException("Date cannot be a future date.");
                 }
                 _dateOfBirth = value;
             }
@@ -162,8 +163,20 @@
         }
 
         //greedy constructor
-        public HockeyPlayer(string firstName, string lastname, string birthPlace, DateOnly dateOfBirth, int weightInPounds, int heightInInches, Position position, Shot shot)  
-            //order matters, defaults have to be at the end e.g.(Position position = Position.center, Shot shot = Shot.left)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastname"></param>
+        /// <param name="birthPlace"></param>
+        /// <param name="dateOfBirth"></param>
+        /// <param name="weightInPounds"></param>
+        /// <param name="heightInInches"></param>
+        /// <param name="position"></param>
+        /// <param name="shot"></param>
+        public HockeyPlayer(string firstName, string lastname, string birthPlace, DateOnly dateOfBirth, int weightInPounds, int heightInInches, Position position = Position.Center, Shot shot = Shot.Left)  
+            //ORDER MATTERS, defaults have to be at the end e.g.(Position position = Position.center, Shot shot = Shot.left)
             //you can default parameters with a greedy constructor where you pass in the parameters
         {
             FirstName = firstName;
